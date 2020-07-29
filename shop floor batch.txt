@@ -1,0 +1,62 @@
+							Shop Floor System Batch
+
+
+Ticket Summary: Convert Existing API(s) to Web Services(s).
+
+Source Code : Place the ShopFloorSystemBatch.zip(Which contains the Shop Floor System Batch Application src and bin folders) in the FTP.
+
+Deployement Procedure:
+
+Step 1: Open the server TORAPP04.
+
+Step 2: Download the ‘ShopFloorSystemBatch.zip’ file from the FTP and place the downloaded
+file on the desktop of application server, extract the downloaded file on the desktop.
+
+Step 3: Stop the services.
+
+Navigate or launch the "services.msc", and stop the tomcat service.
+
+Step 4: To Create in Archive Location:
+
+Go to the folder C:\0000 Shop Floor Batch\apache-tomcat-7.0.82\Classes
+
+Navigate to the Archive folder from the above location.
+
+If the Archive folder does not exist, then create an Archive folder.
+
+Within the Archive folder, Create a back -up folder with current date.
+
+Note:
+ If the Archive Folder Exist.
+
+Within the Archive folder, Create a back -up folder with current date, so that we can archive the existing 'src' and 'bin' folders.
+
+Step 5: To Archive existing "src and bin folders":
+
+copy the "src and bin" folders from the below location,
+
+C:\0000 Shop Floor Batch\apache-tomcat-7.0.82\Classes
+
+And paste the copied folders in the below location.
+
+C:\0000 Shop Floor Batch\apache-tomcat-7.0.82\Classes\Archive\<current date>.
+
+Step 7: To deploy the src and bin folders in the tomcat
+
+Delete the existing src and bin folders from the below location,
+
+C:\0000 Shop Floor Batch\apache-tomcat-7.0.82\Classes
+
+Copy the src and bin folders in ShopFloorSystemBatch folder from Desktop.
+And paste the src and bin folders in the below loaction,
+
+C:\0000 Shop Floor Batch\apache-tomcat-7.0.82\Classes
+
+Step 8: To start the service:
+
+Navigate or launch the "services.msc", and start the tomcat service.
+
+
+
+
+
