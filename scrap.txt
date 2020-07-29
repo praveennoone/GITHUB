@@ -1,0 +1,30 @@
+--------- Inside completetFirstSeqRun in ActivityCompleteModel ---------------
+------------------------------------------------------------------------------
+PartNumber: 5313451
+SequenceNumber: 40
+MoNumber: 8248206
+LineNumber: 000
+Retrieving Average Weight For: 5313451	8248206	40
+itemAverageWeight: 0.0
+isQtyCanBeEdited() method
+workCenter: com.lisi.shopfloor.model.WorkCenter@20e0b1d6
+workCenter Name: HEADING BT 12 & ABOVE
+workCenter ScaleRequired: true
+workCenter: HEADING BT 12 & ABOVE Scale Requiredtrue
+qtyFieldEditable: false
+averageWeightRequired :: true
+else block
+PIN : 75COL :  50
+COI : 50NUT : 50
+callM3API
+Deploying module: metadataExchange - file:/E:/Praveen/Updated_Source_Code_Lisi_Apps/ShopFloorSystem2019_44/trunk/lib/mex-1.4.1.jar
+endpoint
+http://dcbi5d01.open.liae.lisi:10500/lwsN100/services/MMS200MIRead
+Operation name====>getItemBasic
+header : <mwsh:mws xmlns:mwsh="http://mws.intentia.net/mws2"><mwsh:user>USB_SFSUSR</mwsh:user><mwsh:password>Passw4ss</mwsh:password></mwsh:mws>
+Request: 11:32:47.698 --> <getItemBasic xmlns="http://your.company.net/MMS200MIRead/getItemBasic" maxRecords="0"><GetItmBasicItem><ITNO>5313451</ITNO><CONO>100</CONO></GetItmBasicItem></getItemBasic>
+Response: 11:32:48.494 --> <getItemBasicResponse xmlns="http://your.company.net/MMS200MIRead/getItemBasic"><GetItmBasicResponseItem><BACD>0</BACD><DWNO>BACB30NX</DWNO><FUDS>PIN,TI,PROT TENS,STD</FUDS><INDI>3</INDI><ITCL>P0270</ITCL><ITDS>BACB30NX12K33</ITDS><ITTY>AB</ITTY><MABU>1</MABU><QACD>3</QACD></GetItmBasicResponseItem></getItemBasicResponse>
+Unexpected M3 Parameter BACD in getItemBasic M3 API
+Unexpected M3 Parameter INDI in getItemBasic M3 API
+Unexpected M3 Parameter MABU in getItemBasic M3 API
+Command:Cancel
