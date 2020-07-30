@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 1.1//EN"
+       "http://jakarta.apache.org/struts/dtds/tiles-config_1_1.dtd">
+
+<tiles-definitions>
+	
+	<!-- Template for Public Pages -->
+	<definition name="publicPage" page="/WEB-INF/jsp/templates/publicPagesTemplate.jsp">
+		<put name="title" value="" type="definition"/>
+		<put name="header" value="/WEB-INF/jsp/common/header.jsp" type="definition"/>
+		<put name="content" value="" type="definition"/>
+		<put name="footer" value="/WEB-INF/jsp/common/footer.jsp" type="definition"/>
+	</definition> 
+	
+	<definition name="homePage" page="/WEB-INF/jsp/templates/homePagesTemplate.jsp">
+		<put name="title" value="" type="definition"/>
+		<put name="header" value="/WEB-INF/jsp/common/userHeader.jsp" type="definition"/>
+		<put name="adminMenu" value="/WEB-INF/jsp/common/menu/adminMenu.jsp" type="definition"/>
+		<put name="userMenu" value="/WEB-INF/jsp/common/menu/userMenu.jsp" type="definition"/>
+		<put name="content" value="" type="definition"/>
+		<put name="topLeftcontent" value="/WEB-INF/jsp/user/homeleft.jsp" type="definition"/>
+		<put name="footer" value="/WEB-INF/jsp/common/footer.jsp" type="definition"/>
+	</definition>
+	
+	<definition name="popupPage" page="/WEB-INF/jsp/templates/popup.jsp">
+		<put name="title" value="" type="definition"/>		
+	    <put name="userMenu" value="/WEB-INF/jsp/common/menu/userMenu.jsp" type="definition"/>		
+		<put name="content" value="" type="definition"/>
+		<put name="topLeftcontent" value="/WEB-INF/jsp/user/homeleft.jsp" type="definition"/>		
+	</definition>
+	
+		<!-- TEMPLATE FOR POPUP SCREENS
+    <definition name="popupPage" page="/WEB-INF/jsp/templates/popupTemplate.jsp">
+    	<put name="popupHeader" value="/WEB-INF/jsp/common/popupHeader.jsp" type="definition"/>
+        <put name="title" value="" type="definition"/>
+        <put name="content" value="" type="definition"/>
+    </definition> -->
+	
+    <definition name="loginScreen" extends="publicPage">
+    	<put name="title" value="SHOP FLOOR SYSTEM :: Login Page"/>
+	    <put name="content" value="/WEB-INF/jsp/public/loginPage.jsp"/>
+	</definition>
+	
+	<definition name="homeScreen" extends="homePage">
+		<put name="title" value="SHOP FLOOR SYSTEM :: Home Page"/>
+	    <put name="content" value="/WEB-INF/jsp/user/home.jsp"/>
+	</definition>
+	
+	<definition name="empPerformanceScreen" extends="popupPage">
+		<put name="title" value="SHOP FLOOR SYSTEM :: Employee Performance Report"/>
+	    <put name="content" value="/WEB-INF/jsp/user/reports/managemental/empPerformance.jsp"/>
+	</definition>
+	
+	<definition name="logOnOffScreen" extends="homePage">
+		<put name="title" value="SHOP FLOOR SYSTEM :: Logon and Logoff Report"/>
+	    <put name="content" value="/WEB-INF/jsp/user/reports/exceptional/logOnOff.jsp"/>
+	</definition>
+	
+	<definition name="assetUsageScreen" extends="popupPage">
+		<put name="title" value="SHOP FLOOR SYSTEM :: Asset Usage Report"/>
+	    <put name="content" value="/WEB-INF/jsp/user/reports/managemental/assetUsage.jsp"/>
+	</definition>
+	
+	<definition name="standardRateScreen" extends="popupPage">
+		<put name="title" value="SHOP FLOOR SYSTEM :: Standard Rate Report"/>
+	    <put name="content" value="/WEB-INF/jsp/user/reports/managemental/standardRate.jsp"/>
+	</definition>
+	
+	<definition name="productionScreen" extends="homePage">
+		<put name="title" value="SHOP FLOOR SYSTEM :: Production Report"/>
+	    <put name="content" value="/WEB-INF/jsp/user/reports/managemental/production.jsp"/>
+	</definition>
+	
+	<definition name="costCenterProductionReportScreen" extends="homePage">
+		<put name="title" value="SHOP FLOOR SYSTEM :: Cost Center Production Report"/>
+	    <put name="content" value="/WEB-INF/jsp/user/reports/managemental/costCenterProductionReport.jsp"/>
+	</definition>
+	
+	<definition name="facilityProductionReportScreen" extends="homePage">
+		<put name="title" value="SHOP FLOOR SYSTEM :: Facility Production Report"/>
+	    <put name="content" value="/WEB-INF/jsp/user/reports/managemental/facilityProductionReport.jsp"/>
+	</definition>
+	
+	<definition name="factorySummeryScreen" extends="homePage">
+		<put name="title" value="SHOP FLOOR SYSTEM :: Factory Summery View"/>
+	    <put name="content" value="/WEB-INF/jsp/user/reports/factory/factorySummeryView.jsp"/>
+	</definition>
+	
+	<definition name="exceptionalActivityScreen" extends="popupPage">
+		<put name="title" value="SHOP FLOOR SYSTEM :: Exceptional Activity Report"/>
+	    <put name="content" value="/WEB-INF/jsp/user/reports/managemental/exceptionalActivity.jsp"/>
+	</definition>
+	
+	<definition name="activityRejectedScreen" extends="homePage">
+		<put name="title" value="SHOP FLOOR SYSTEM :: Activity Rejected Details Report"/>
+	    <put name="content" value="/WEB-INF/jsp/user/reports/exceptional/activityRejected.jsp"/>
+	</definition>
+	
+	<definition name="employeeDetailsScreen" extends="homePage">
+		<put name="title" value="SHOP FLOOR SYSTEM :: Employee Details Report"/>
+	    <put name="content" value="/WEB-INF/jsp/user/reports/exceptional/employeeDetails.jsp"/>
+	</definition>
+	
+	<definition name="nonProductivityScreen" extends="homePage">
+		<put name="title" value="SHOP FLOOR SYSTEM :: Non-Working Hrs Report"/>
+	    <put name="content" value="/WEB-INF/jsp/user/reports/exceptional/nonProductivity.jsp"/>
+	</definition>
+	
+	<definition name="logonLogoffDetailsScreen" extends="popupPage">
+		<put name="title" value="SHOP FLOOR SYSTEM :: Logon Logoff Details"/>
+	    <put name="content" value="/WEB-INF/jsp/user/reports/exceptional/popupLogonLogoffDetails.jsp"/>
+	</definition>
+	
+	<definition name="activityRejectionScreen" extends="homePage">
+		<put name="title" value="SHOP FLOOR SYSTEM :: Activity Rejection Module"/>
+	    <put name="content" value="/WEB-INF/jsp/user/activity/activityRejection.jsp"/>
+	</definition>
+	
+	<definition name="activityAdjustmentScreen" extends="homePage">
+		<put name="title" value="SHOP FLOOR SYSTEM :: Activity Adjustment Module"/>
+	    <put name="content" value="/WEB-INF/jsp/user/activity/activityAdjustment.jsp"/>
+	</definition>
+	
+	<definition name="popupAdjustScreen" extends="popupPage">
+		<put name="title" value="SHOP FLOOR SYSTEM :: Activity Adjustment Module"/>
+	    <put name="content" value="/WEB-INF/jsp/user/activity/adjustmentPopup.jsp"/>
+	</definition>
+	
+	<definition name="popupProductionScreen" extends="popupPage">
+		<put name="title" value="SHOP FLOOR SYSTEM :: Production Details"/>
+	    <put name="content" value="/WEB-INF/jsp/user/reports/managemental/productionPopup.jsp"/>
+	</definition>
+	
+	<definition name="modifyInputFlagScreen" extends="homePage">
+		<put name="title" value="SHOP FLOOR SYSTEM :: Set Quantity Input Flag"/>
+	    <put name="content" value="/WEB-INF/jsp/user/sequence/modifyInputFlag.jsp"/>
+	</definition>
+		
+	<definition name="resetItemWeight" extends="homePage">
+		<put name="title" value="SHOP FLOOR SYSTEM :: Reset Item Weight"/>
+	    <put name="content" value="/WEB-INF/jsp/user/item/resetItemWeight.jsp"/>
+	</definition>
+
+	<definition name="currentOrderDetailsScreen" extends="homePage">
+		<put name="title" value="SHOP FLOOR SYSTEM :: Current Order Details"/>
+	    <put name="content" value="/WEB-INF/jsp/user/reports/currentOrderDetails.jsp"/>
+	</definition>
+	
+	<definition name="pickSequenceScreen" extends="homePage">
+		<put name="title" value="SHOP FLOOR SYSTEM :: Pick Sequence"/>
+	    <put name="content" value="/WEB-INF/jsp/user/sequence/pickSequence.jsp"/>
+	</definition>
+	
+	<definition name="sequenceDetailsScreen" extends="popupPage">
+		<put name="title" value="Sequence Details"/>
+	    <put name="content" value="/WEB-INF/jsp/user/reports/popupSequenceDetailsScreen.jsp"/>
+	</definition>
+	
+	<definition name="assetDetailsScreen" extends="homePage">
+		<put name="title" value="SHOP FLOOR SYSTEM :: Asset Details"/>
+	    <put name="content" value="/WEB-INF/jsp/user/reports/assetDetails.jsp"/>
+	</definition>
+	
+	<definition name="pendingOrderDetailsScreen" extends="homePage">
+		<put name="title" value="SHOP FLOOR SYSTEM :: Pending Jobs For Work Centre"/>
+	    <put name="content" value="/WEB-INF/jsp/user/reports/pendingOrderDetails.jsp"/>
+	</definition>
+	
+	<definition name="processrouterPopupScreen" extends="popupPage">
+		<put name="title" value="SHOP FLOOR SYSTEM :: Process Router Report"/>
+	    <put name="content" value="/WEB-INF/jsp/user/reports/managemental/processrouterPopup.jsp"/>
+	</definition>
+	
+	<definition name="activityLogScreen" extends="homePage">
+		<put name="title" value="SHOP FLOOR SYSTEM :: Activity Log"/>
+	    <put name="content" value="/WEB-INF/jsp/user/reports/managemental/activityLog.jsp"/>
+	</definition>
+	
+	<definition name="popupFactoryAssetScreen" extends="popupPage">
+		<put name="title" value="SHOP FLOOR SYSTEM :: Asset Details"/>
+	    <put name="content" value="/WEB-INF/jsp/user/reports/factory/popupFactoryAssetScreen.jsp"/>
+	</definition>
+
+    <definition name="activityLogSummaryScreen" extends="homePage">
+		<put name="title" value="SHOP FLOOR SYSTEM :: Activity Log Summary"/>
+	    <put name="content" value="/WEB-INF/jsp/user/reports/managemental/activityLogSummary.jsp"/>
+	</definition>
+	
+	<definition name="performanceAssetwiseScreen" extends="homePage">
+		<put name="title" value="SHOP FLOOR SYSTEM :: Daily Performance Report - Assetwise"/>
+	    <put name="content" value="/WEB-INF/jsp/user/reports/managemental/performanceAssetwise.jsp"/>
+	</definition>
+	
+	<definition name="wipStatusForm" extends="homePage">
+		<put name="title" value="LISI :: WIP Status"/>
+	    <put name="content" value="/WEB-INF/jsp/user/reports/managemental/wipStatusReport.jsp"/>
+	</definition>
+	
+	<definition name="popupPartnumberScreen" extends="popupPage">
+		<put name="title" value="LISI :: Partnumber Page"/>
+	    <put name="content" value="/WEB-INF/jsp/user/reports/managemental/partnumberPopup.jsp"/>
+	</definition>
+	
+	<definition name="employeeOutputScreen" extends="homePage">
+		<put name="title" value="SHOP FLOOR SYSTEM :: Employee Output by Shift"/>
+	    <put name="content" value="/WEB-INF/jsp/user/reports/exceptional/employeeOutput.jsp"/>
+	</definition>
+			
+	<definition name="updateItemWeightScreen" extends="homePage">
+		<put name="title" value="SHOP FLOOR SYSTEM :: Update Item Weight"/>
+	    <put name="content" value="/WEB-INF/jsp/user/item/updateItemWeight.jsp"/>
+	</definition>
+	
+	<definition name="componentDetail" extends="homePage">
+		<put name="title" value="SHOP FLOOR SYSTEM :: Component Details"/>
+	    <put name="content" value="/WEB-INF/jsp/user/reports/componentDetail.jsp"/>
+	</definition>
+	
+	<definition name="editDetails" extends="homePage">
+		<put name="title" value="SHOP FLOOR SYSTEM :: Edit Details"/>
+	    <put name="content" value="/WEB-INF/jsp/user/sequence/editDetails.jsp"/>
+	</definition>
+	
+	<definition name="editDetailsPopup" extends="popupPage">
+		<put name="title" value="SHOP FLOOR SYSTEM :: Edit Details"/>
+	    <put name="content" value="/WEB-INF/jsp/user/sequence/editDetailsPopup.jsp"/>
+	</definition>
+	
+	<definition name="timeAdjustmentScreen" extends="homePage">
+		<put name="title" value="Time Adjustment"/>
+	    <put name="content" value="/WEB-INF/jsp/user/activity/timeAdjustment.jsp"/>
+	</definition>
+	
+	<definition name="pphCorrectionInterfaceScreen" extends="homePage">
+		<put name="title" value="SHOP FLOOR SYSTEM :: PPH Correction Interface"/>
+	    <put name="content" value="/WEB-INF/jsp/user/reports/pphCorrectionInterface.jsp"/>
+	</definition>
+
+	<definition name="correctionIntModifyMOScreen" extends="homePage">
+		<put name="title" value="SHOP FLOOR SYSTEM :: Correction Interface Modify Manufaucturing Order"/>
+	    <put name="content" value="/WEB-INF/jsp/user/reports/correctionIntModifyMO.jsp"/>
+	</definition>
+	
+	<definition name="correctionTrackingDetailsScreen" extends="homePage">
+		<put name="title" value="SHOP FLOOR SYSTEM :: Correction Tracking Details Report"/>
+	    <put name="content" value="/WEB-INF/jsp/user/reports/managemental/correctionTrackingDetails.jsp"/>
+	</definition>
+	
+	<definition name="m3TransactionLogReportScreen" extends="homePage">
+		<put name="title" value="SHOP FLOOR SYSTEM :: M3 Transaction Log Report"/>
+	    <put name="content" value="/WEB-INF/jsp/user/reports/managemental/m3TransactionLogReport.jsp"/>
+	</definition>
+	
+	<definition name="m3TransactionReconciliationScreen" extends="homePage">
+		<put name="title" value="SHOP FLOOR SYSTEM :: M3 Transaction Reconciliation"/>
+	    <put name="content" value="/WEB-INF/jsp/user/reports/managemental/m3TransactionReconciliation.jsp"/>
+	</definition>
+	
+	<definition name="outsideOperationRejectionScreen" extends="homePage">
+		<put name="title" value="SHOP FLOOR SYSTEM :: Outside Operation Rejection"/>
+	    <put name="content" value="/WEB-INF/jsp/user/activity/reverseOutsideOperation.jsp"/>
+	</definition>
+	
+	<definition name="inspectionOperationRejectionScreen" extends="homePage">
+		<put name="title" value="SHOP FLOOR SYSTEM :: Inspection Operation Rejection"/>
+	    <put name="content" value="/WEB-INF/jsp/user/activity/reverseInspectionOperation.jsp"/>
+	</definition>
+	
+	<!-- Begin - 26978 - new interface Quality Standard Time - Pinky - Infosys - 20 Apr 2011 --> 	
+	<definition name="qualityStandardTimeScreen" extends="homePage">
+		<put name="title" value="SHOP FLOOR SYSTEM :: Quality Standard Time"/>
+	    <put name="content" value="/WEB-INF/jsp/user/activity/qualityStandardTime.jsp"/>
+	</definition>
+	<!-- End - 26978 - new interface Quality Standard Time - Pinky - Infosys - 20 Apr 2011  -->
+	
+	<!-- Begin WO# 26989 - PPH Threshold Interface - Ambrish.V - Infosys - 20 Apr 2011 --> 
+	<definition name="workCenterConfigScreen" extends="homePage">
+		<put name="title" value="SHOP FLOOR SYSTEM :: Work Center Configuration"/>
+	    <put name="content" value="/WEB-INF/jsp/user/activity/workCenterConfig.jsp"/>
+	</definition>
+	
+	<definition name="assetConfigScreen" extends="homePage">
+		<put name="title" value="SHOP FLOOR SYSTEM :: Asset Configuration"/>
+	    <put name="content" value="/WEB-INF/jsp/user/activity/assetConfig.jsp"/>
+	</definition>
+	
+	<definition name="configDivisionScreen" extends="homePage">
+		<put name="title" value="SHOP FLOOR SYSTEM :: Configure Division Parameters"/>
+	    <put name="content" value="/WEB-INF/jsp/user/activity/configDivision.jsp"/>
+	</definition>
+	
+	<definition name="configReasonScreen" extends="homePage">
+		<put name="title" value="SHOP FLOOR SYSTEM :: Reason Master Configuration"/>
+	    <put name="content" value="/WEB-INF/jsp/user/activity/configReason.jsp"/>
+	</definition>
+	<!-- End WO# 26989 - PPH Threshold Interface - Ambrish.V - Infosys - 20 Apr 2011 -->
+	 
+</tiles-definitions>

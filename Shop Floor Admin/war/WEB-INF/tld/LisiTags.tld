@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<taglib version="2.0">
+  <tlib-version>1.1</tlib-version>
+  <uri>/WEB-INF/tld/LisiTags</uri>
+  <function>
+    <name>contains</name>
+    <function-class>com.gavs.hishear.web.taglib.LisiFunctions</function-class>
+    <function-signature>
+	 <!-- Begin WO# 27639 - Moving Static links to dynamic -  Pinky - Infosys - 23 June 2011 --> 
+     <!--  boolean contains(java.util.Set,java.lang.String)  -->
+      	   boolean contains(com.gavs.hishear.web.context.UserContext,java.util.Set,java.lang.String,java.lang.Boolean)
+     <!-- End WO# 27639 - Moving Static links to dynamic -  Pinky - Infosys - 23 June 2011 -->
+    </function-signature>
+  </function>
+</taglib>

@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+	
+<beans>	
+
+	<bean id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="ignoreUnresolvablePlaceholders">
+			<value>true</value>
+		</property>
+		<property name="locations">
+			<list>
+			
+			<!-- 	 <bean
+					class="org.springframework.core.io.ClassPathResource">
+					<constructor-arg>
+						<value>server.properties</value>
+					</constructor-arg>
+				</bean>
+				<bean
+					class="org.springframework.core.io.ClassPathResource">
+					<constructor-arg>
+						<value>Database.properties</value>
+					</constructor-arg> 
+				</bean> -->
+			
+				<value>file://C:/Bootup/bootup.properties</value>                          
+            	<value>file://C:/Servers/ShopFloorAdmin.properties</value>
+			</list>
+		</property>
+	</bean>
+	
+	
+	<!-- Tiles Configurer to load the Tiles definitions -->
+	<bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles.TilesConfigurer">
+		<property name="definitions">
+			<list>
+				<value>/WEB-INF/definitions/definitions.xml</value>
+			</list>
+		</property>
+	</bean>
+		
+	<!--  View Resolver Configuration -->
+	<bean id="viewResolver" class="org.springframework.web.servlet.view.ResourceBundleViewResolver">
+		<property name="basename"><value>views</value></property>
+	</bean>
+	
+	<!-- Message source for this context, loaded from localized "messages_xx" files -->
+	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basename"><value>messages</value></property>										
+	</bean>
+	
+	<!--  Handler Mapping used by the Lisi Serlet for Public URLs -->
+	<bean id="publicUrlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping" >
+	       
+	       <property name="interceptors">
+            <list>
+                <ref bean="ajaxInterceptor"/>
+            </list>
+        </property>
+        
+		<property name="mappings">
+			<props>			   		
+				<prop key="**/login.htm">loginController</prop>
+				<prop key="**/logout.htm">logoutController</prop>
+    		</props>
+		</property>
+	</bean>
+	
+	<!-- The ThreadLocal User Context Implementation -->
+	<bean id="userContext" class="com.gavs.hishear.web.context.ThreadLocalUserContext"/>
+	
+	<!-- The Login Context Interceptor that checks for valid session user context on requests -->
+	<bean id="loginContextInterceptor" class="com.gavs.hishear.web.servlet.handler.InvalidSessionHandlerInterceptor">
+		<property name="userContext"><ref bean="userContext" /></property>
+		<property name="loginUrl"><value>login.htm</value></property>
+		<property name="logoutUrl"><value>logout.htm</value></property>		
+	</bean>
+		
+	<bean id="authService" class="com.gavs.hishear.web.domain.LDAPAuthenticator" >
+		<property name="providerURL"><value>${ldap.provideURL}</value></property>
+		<property name="providerURLSecond"><value>${ldap.provideURL.second}</value></property>
+		<property name="securityPrinciple"><value>${ldap.security.principle}</value></property>
+	</bean>
+	
+	<bean id="loginValidator" class="com.gavs.hishear.web.validator.LoginValidator">
+	 <property name="authService"><ref bean="authService"/></property>
+	 <!-- Begin WO# 27639 - Moving Static links to dynamic - Pinky - Infosys - 23 June 2011 -->	
+	 <property name="applicationPropertyBean"><ref bean="applicationPropertyBean" /></property>	
+	 <!-- End WO# 27639 - Moving Static links to dynamic - Pinky - Infosys - 23 June 2011 -->
+	</bean>
+	
+	<!-- The DataSource -->
+	<bean id="dataSource" destroy-method="close" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" 	value="${jdbc.overrideDriverClassName}" />
+		<property name="url" value="${jdbc.overrideUrl}" />
+        <property name="username" value="${jdbc.overrideUsername}" />
+        <property name="password" value="${jdbc.overridePassword}" />
+        <property name="initialSize" value="32" />
+        <property name="maxIdle" value="32" />
+        <property name="maxActive" value="64" />
+        <property name="maxWait" value="20000" />
+	</bean>
+	
+	<!-- Begin WO# 27639 - Moving Static links to dynamic - Pinky - Infosys - 23 June 2011 -->
+	<bean id="defaultDataSource" destroy-method="close" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="${jdbc.driverClassName}" />
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+	</bean>
+	<!-- End WO# 27639 - Moving Static links to dynamic - Pinky - Infosys - 23 June 2011 -->
+	
+	<bean id="ajaxInterceptor" class="org.springmodules.xt.ajax.AjaxInterceptor">
+        <property name="handlerMappings">
+            <props>
+                <prop key="/modifyInputFlag.htm">quantityInputFlagActionsHandler</prop>
+                <prop key="/deptWCAssetDetails.htm">qtyCaptureRequiredActionsHandler</prop>
+                <prop key="/factorySummeryView.htm">factoryActionsHandler</prop>
+                <prop key="/componentDetail.htm">componentDetailActionsHandler</prop>
+                <prop key="/updateItemWeight.htm">updateItemWeightActionsHandler</prop>
+                <prop key="/correctionInterface.htm">correctionInterfaceActionsHandler</prop>
+                <prop key="/pphCorrectionInterface.htm">pphCorrectionInterfaceActionsHandler</prop>
+                <prop key="/correctionInterfaceModifyMO.htm">correctionIntModifyMOActionsHandler</prop>
+                <prop key="/m3TransactionLog.htm">m3TransactionLogReportActionsHandler</prop>
+                <prop key="/m3TransactionReconciliation.htm">m3TransactionReconciliationActionsHandler</prop>
+                <prop key="/reverseOutsideOperation.htm">outsideOperationReversalActionsHandler,ajaxValidationHandler</prop>
+                <prop key="/reverseInspectionOperation.htm">inspectionOperationReversalActionsHandler,ajaxValidationHandler</prop>
+                <!-- Begin - 26978 - new interface Quality Standard Time - Pinky - Infosys - 20 Apr 2011 -->
+				<prop key="/qualityStandardTime.htm">qualityStandardTimeActionsHandler</prop>
+				<!-- End - 26978 - new interface Quality Standard Time - Pinky - Infosys - 20 Apr 2011 -->	  
+                <!-- Begin WO# 26989 - PPH Threshold Interface - Ambrish.V - Infosys - 20 Apr 2011 -->
+                <prop key="/workCenterConfig.htm">workCenterConfigActionHandler</prop> 
+                <prop key="/assetConfiguration.htm">assetConfigActionHandler</prop>
+                <prop key="/configReason.htm">reasonConfigActionHandler</prop>
+                <!-- End WO# 26989 - PPH Threshold Interface - Ambrish.V - Infosys - 20 Apr 2011 -->
+            </props>
+        </property>
+    </bean>
+    
+    <bean id="ajaxValidationHandler" class="org.springmodules.xt.ajax.validation.DefaultValidationHandler" />
+    	
+</beans>

@@ -1,0 +1,61 @@
+body {
+	color: black;
+	font-family: verdana,tahoma,helvetica,sans-serif;
+    font-size:   8pt;
+    color: #1a4a6f;
+    vertical-align: top;
+    background-color: #F2F2F2;
+	margin-top: -9px;
+	border: thick;
+	margin-bottom: 0;
+	display: compact;
+	table-layout: auto;
+} 
+input{
+	font-family: verdana,tahoma,helvetica,sans-serif;
+    font-size:   8pt;
+    color: #1a4a6f;
+}
+
+select {
+	font-family: verdana,tahoma,helvetica,sans-serif;
+    font-size:   8pt;
+    color: #1a4a6f;
+}
+
+#wrapper {	
+	float: left;
+	margin-top: -9px;
+	margin-left: 0px;
+	margin-right: -9px;
+	padding: 0px;
+	text-align: left;
+	border-left: 1px solid #495e83;
+	border-right: 1px solid #495e83;
+	width: 99%;
+	vertical-align: top;
+}
+
+#header {
+	background-color: #FFFFFF;
+	width: 100%;
+	margin: 0px;
+	margin-top: 0in;
+	padding: 0px;
+	margin-right: -9px;
+	padding-top: 0px;
+	border: 0px solid #CCCCCC;
+	vertical-align: top;
+}
+
+a:link 		{ text-decoration: none; color: #1a4a6f}
+a:visited	{ text-decoration: none; color: #1a4a6f}
+a:hover 	{ text-decoration: none; color: #1a4a6f}
+a:active 	{ text-decoration: none; color: #1a4a6f}
+
+.linkText{
+	font-family: verdana,tahoma,helvetica,sans-serif;
+    font-size:   8pt;
+    color: #1a4a6f;
+    text-align: right;
+}

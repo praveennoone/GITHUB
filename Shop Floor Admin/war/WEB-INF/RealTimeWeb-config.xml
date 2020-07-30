@@ -1,0 +1,749 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+	
+	<!--  Handler Mapping used by the RealTime Servlet for Secured URLs -->
+	<bean id="webUrlMapping"
+		class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+		<property name="interceptors">
+			<list>
+				<ref bean="loginContextInterceptor" />
+				<ref bean="ajaxInterceptor"/>
+			</list>
+		</property>
+		<property name="mappings">
+			<props>
+				<prop key="**/home.htm">controllerHome</prop>
+	 			<prop key="**/activityRejection.htm">controllerActivityRejection</prop> 
+	 			<prop key="**/empPerformance.htm">controllerEmployeePerformance</prop>
+				<prop key="**/logOnOff.htm">controllerLogonLogoff</prop>
+	 			<prop key="**/assetUsage.htm">controllerAssetUsage</prop>
+	 			<prop key="**/standardRate.htm">controllerStandardRate</prop>
+	 			<prop key="**/production.htm">controllerProduction</prop>
+	 			<prop key="**/costCenterProductionReport.htm">controllerCostCenterProductionReport</prop>
+	 			<prop key="**/activityRejected.htm">controllerActivityRejected</prop>
+				<prop key="**/employeeDetails.htm">controllerEmployeeDetails</prop>
+	 			<prop key="**/nonProductivity.htm">controllerNonProductivity</prop>
+	 			<prop key="**/showActivity.htm">controllerShowActivity</prop>
+	 			<prop key="**/modifyInputFlag.htm">controllerModifyInputFlag</prop>
+				<prop key="**/exceptionalActivity.htm">controllerExceptionalActivity</prop>
+				<prop key="**/logonLogoffDetails.htm">controllerLogonLogoffDetails</prop>
+				<prop key="**/resetItemWeight.htm">controllerResetItemWeight</prop>
+				<prop key="**/currentOrderDetails.htm">controllerCurrentOrderDetails</prop>
+				<prop key="**/sequenceDetails.htm">controllerSequenceDetails</prop>
+				<prop key="**/pickSequence.htm">controllerPickSequence</prop>
+				<prop key="**/deptWCAssetDetails.htm">controllerDeptWCAssetReport</prop>
+				<prop key="**/pendingOrderDetails.htm">controllerPendingOrderDetails</prop>
+				<prop key="**/activityLog.htm">controllerActivityLog</prop>
+				<prop key="**/activityLogSummary.htm">controllerActivityLogSummary</prop>
+				<prop key="**/performanceAssetwise.htm">controllerPerformanceAssetwiseReport</prop>
+				<prop key="**/wipStatus.htm">controllerWIPStatus</prop>
+				<prop key="**/employeeOutput.htm">controllerEmployeeOutput</prop>
+				<prop key="**/componentDetail.htm">controllerComponentDetail</prop>
+				<prop key="**/updateItemWeight.htm">controllerUpdateItemWeight</prop>
+				<prop key="**/correctionInterfaceModifyMO.htm">CorrectionIntModifyMOController</prop>		
+				<prop key="**/pphCorrectionInterface.htm">controllerPPHCorrection</prop>		
+				<prop key="**/correctionTrackingDetails.htm">controllerCorrectionTrackingDetails</prop>
+				<prop key="**/facilityProductionReport.htm">controllerFacilityProductionReport</prop>
+				<prop key="**/m3TransactionLog.htm">controllerM3TransactionLogReport</prop>
+				<prop key="**/m3TransactionReconciliation.htm">controllerM3TransactionReconciliation</prop>
+				<prop key="**/reverseOutsideOperation.htm">controllerReverseOutsideOperation</prop>
+				<prop key="**/reverseInspectionOperation.htm">controllerReverseInspectionOperation</prop>
+				<!-- Begin - 26978 - new interface Quality Standard Time - Pinky - Infosys - 20 Apr 2011 -->
+				<prop key="**/qualityStandardTime.htm">controllerQualityStandardTime</prop>
+				<!-- End - 26978 - new interface Quality Standard Time - Pinky - Infosys - 20 Apr 2011 -->				
+				<!-- Begin WO# 26989 - PPH Threshold Interface - Ambrish.V - Infosys - 20 Apr 2011 -->
+				<prop key="**/workCenterConfig.htm">workCenterConfigController</prop>
+				<prop key="**/assetConfiguration.htm">assetConfigController</prop>
+				<prop key="**/configDivision.htm">configDivisionController</prop>
+				<prop key="**/configReason.htm">configReasonController</prop>
+				<!-- End WO# 26989 - PPH Threshold Interface - Ambrish.V - Infosys - 20 Apr 2011 -->
+			</props>
+		</property>
+	</bean>
+	
+	
+		
+	<!-- Controller For Home page-->
+	<bean id="controllerHome" class="com.gavs.hishear.web.controllers.HomePageController">
+		<property name="formView"><value>homeScreen</value></property>
+		<property name="successView"><value>homeScreen</value></property>
+		<property name="userContext"><ref bean="userContext" /></property>
+		<property name="commandClass"><value>com.gavs.hishear.web.domain.User</value></property>
+	</bean>
+	
+	<!-- Controller For Factory Summery Page -->
+	<bean id="controllerExceptionalActivity" class="com.gavs.hishear.web.reports.management.controller.ControllerExceptionalActivity">
+		<property name="formView"><value>exceptionalActivityScreen</value></property>
+		<property name="successView"><value>exceptionalActivityScreen</value></property>
+		<property name="userContext"><ref bean="userContext" /></property>
+		<property name="commandClass"><value>com.gavs.hishear.web.reports.management.domain.ManagementalDto</value></property>
+		<property name="dao"> <ref bean="ManagementReportsDao" /> </property>
+	</bean>
+	
+	<!-- Controller For Activity Rejection Page Module-->
+	<bean id="controllerActivityRejection" class="com.gavs.hishear.web.controllers.ActivityRejectionController">
+		<property name="formView"><value>activityRejectionScreen</value></property>
+		<property name="successView"><value>activityRejectionScreen</value></property>
+		<property name="userContext"><ref bean="userContext" /></property>
+		<property name="m3APIWSClient"><ref bean="m3APIWSClient" /></property>
+		<property name="commandClass"><value>com.gavs.hishear.web.reports.exceptional.domain.ExceptionalDto</value></property>
+		<property name="dao"> <ref bean="ExceptionalReportsDao" /> </property>
+		<property name="itemDao"> <ref bean="itemDao" /> </property>
+		<property name="sequenceDAO"> <ref bean="SequenceDAO" /> </property>
+		<property name="applicationPropertyBean"><ref bean="applicationPropertyBean" /></property>		
+	</bean>
+	
+	<!-- Controller For Activaty adjestment pop up Page Module-->
+	<bean id="controllerShowActivity" class="com.gavs.hishear.web.controllers.AdjustActivityPopupController">
+		<property name="formView"><value>popupAdjustScreen</value></property>
+		<property name="successView"><value>popupAdjustScreen</value></property>
+		<property name="userContext"><ref bean="userContext" /></property>
+		<property name="commandClass"><value>com.gavs.hishear.web.reports.exceptional.domain.ExceptionalDto</value></property>
+		<property name="dao"> <ref bean="ExceptionalReportsDao" /> </property>	
+	</bean>
+	
+	
+	<!-- Controller For employee performance report-->
+	<bean id="controllerEmployeePerformance" class="com.gavs.hishear.web.reports.management.controller.ControllerEmployeePerformance">
+		<property name="formView"><value>empPerformanceScreen</value></property>
+		<property name="successView"><value>empPerformanceScreen</value></property>
+		<property name="userContext"><ref bean="userContext" /></property>
+		<property name="commandClass"><value>com.gavs.hishear.web.reports.management.domain.ManagementalDto</value></property>
+		<property name="dao"> <ref bean="ManagementReportsDao" /> </property>
+	</bean> 
+	
+	<!-- Controller For Logon and Logoff report-->
+	<bean id="controllerLogonLogoff" class="com.gavs.hishear.web.reports.exceptional.controller.ControllerLogonLogoff">
+		<property name="formView"><value>logOnOffScreen</value></property>
+		<property name="successView"><value>logOnOffScreen</value></property>
+		<property name="userContext"><ref bean="userContext" /></property>
+		<property name="commandClass"><value>com.gavs.hishear.web.reports.exceptional.domain.ExceptionalDto</value></property>
+		<property name="dao"> <ref bean="ExceptionalReportsDao" /> </property>
+	</bean>
+	
+	<!-- Controller For Asset Usage report-->
+	<bean id="controllerAssetUsage" class="com.gavs.hishear.web.reports.management.controller.ControllerAssetUsage">
+		<property name="formView"><value>assetUsageScreen</value></property>
+		<property name="successView"><value>assetUsageScreen</value></property>
+		<property name="userContext"><ref bean="userContext" /></property>
+		<property name="commandClass"><value>com.gavs.hishear.web.reports.management.domain.ManagementalDto</value></property>
+		<property name="dao"> <ref bean="ManagementReportsDao" /> </property>
+	</bean>
+
+	<!-- Controller For Standard Rate report-->	
+	<bean id="controllerStandardRate" class="com.gavs.hishear.web.reports.management.controller.ControllerStandardRate">
+		<property name="formView"><value>standardRateScreen</value></property>
+		<property name="successView"><value>standardRateScreen</value></property>
+		<property name="userContext"><ref bean="userContext" /></property>
+		<property name="commandClass"><value>com.gavs.hishear.web.reports.management.domain.ManagementalDto</value></property>
+		<property name="dao"> <ref bean="ManagementReportsDao" /> </property>
+	</bean>
+	
+
+	<!-- Controller For Production report-->	
+	<bean id="controllerProduction" class="com.gavs.hishear.web.reports.management.controller.ControllerProduction">
+		<property name="formView"><value>productionScreen</value></property>
+		<property name="successView"><value>productionScreen</value></property>
+		<property name="userContext"><ref bean="userContext" /></property>
+		<property name="commandClass"><value>com.gavs.hishear.web.reports.management.domain.ManagementalDto</value></property>
+		<property name="dao"> <ref bean="ManagementReportsDao" /> </property>
+	</bean>
+	
+	<!-- Controller For Cost Center Production report-->	
+	<bean id="controllerCostCenterProductionReport" class="com.gavs.hishear.web.reports.management.controller.ControllerCostCenterProductionReport">
+		<property name="formView"><value>costCenterProductionReportScreen</value></property>
+		<property name="successView"><value>costCenterProductionReportScreen</value></property>
+		<property name="userContext"><ref bean="userContext" /></property>
+		<property name="commandClass"><value>com.gavs.hishear.web.reports.management.domain.ManagementalDto</value></property>
+		<property name="dao"> <ref bean="ManagementReportsDao" /> </property>
+	</bean>
+	
+	<!-- Controller For Facility Production report-->	
+	<bean id="controllerFacilityProductionReport" class="com.gavs.hishear.web.reports.management.controller.ControllerFacilityProductionReport">
+		<property name="formView"><value>facilityProductionReportScreen</value></property>
+		<property name="successView"><value>facilityProductionReportScreen</value></property>
+		<property name="userContext"><ref bean="userContext" /></property>
+		<property name="commandClass"><value>com.gavs.hishear.web.reports.management.domain.ManagementalDto</value></property>
+		<property name="dao"> <ref bean="ManagementReportsDao" /> </property>
+	</bean>
+		
+	<!-- Controller For Activity Rejected report-->	
+	<bean id="controllerActivityRejected" class="com.gavs.hishear.web.reports.exceptional.controller.ControllerActivityRejected">
+		<property name="formView"><value>activityRejectedScreen</value></property>
+		<property name="successView"><value>activityRejectedScreen</value></property>
+		<property name="userContext"><ref bean="userContext" /></property>
+		<property name="commandClass"><value>com.gavs.hishear.web.reports.exceptional.domain.ExceptionalDto</value></property>
+		<property name="dao"> <ref bean="ExceptionalReportsDao" /> </property>
+	</bean>
+	
+	<!-- Controller For Employee Details report-->	
+	<bean id="controllerEmployeeDetails" class="com.gavs.hishear.web.reports.exceptional.controller.ControllerEmployeeDetails">
+		<property name="formView"><value>employeeDetailsScreen</value></property>
+		<property name="successView"><value>employeeDetailsScreen</value></property>
+		<property name="userContext"><ref bean="userContext" /></property>
+		<property name="commandClass"><value>com.gavs.hishear.web.reports.exceptional.domain.ExceptionalDto</value></property>
+	   	<property name="dao"> <ref bean="ExceptionalReportsDao" /> </property>
+	</bean>
+
+	<!-- Controller For Non Productivity report-->		
+	<bean id="controllerNonProductivity" class="com.gavs.hishear.web.reports.exceptional.controller.ControllerNonProductivity">
+		<property name="formView"><value>nonProductivityScreen</value></property>
+		<property name="successView"><value>nonProductivityScreen</value></property>
+		<property name="userContext"><ref bean="userContext" /></property>
+		<property name="commandClass"><value>com.gavs.hishear.web.reports.exceptional.domain.ExceptionalDto</value></property>
+	 	<property name="dao"> <ref bean="ExceptionalReportsDao" /> </property>
+	 	<property name="managementDao"> <ref bean="ManagementReportsDao" /> </property>
+	</bean>
+	
+	<!-- Controller For Current Order Details report-->	
+	<bean id="controllerCurrentOrderDetails" class="com.gavs.hishear.web.reports.controller.ControllerCurrentOrderDetails">
+		<property name="mainView"><value>currentOrderDetailsScreen</value></property>
+		<property name="successView"><value>currentOrderDetailsScreen</value></property>
+		<property name="userContext"><ref bean="userContext" /></property>
+		<property name="m3APIWSClient"><ref bean="m3APIWSClient" /></property>
+		<property name="commandClass"><value>com.gavs.hishear.web.domain.Sequence</value></property>
+		<property name="dao"> <ref bean="SequenceDAO" /> </property>
+		<property name="validator"> <ref bean="currentOrderDetailsValidator" /> </property>
+		<property name="redirectView"><value>processrouterPopupScreen</value></property>
+	</bean>
+	
+	<bean id="currentOrderDetailsValidator" class="com.gavs.hishear.web.reports.validator.CurrentOrderDetailsValidator">
+		<property name="itemDAO"> <ref bean="itemDao" /> </property>
+		<property name="userContext"><ref bean="userContext" /></property>
+		<property name="m3APIWSClient"><ref bean="m3APIWSClient" /></property>
+	</bean>
+	
+	<!-- Controller For Sequence Details report-->	
+	<bean id="controllerSequenceDetails" class="com.gavs.hishear.web.reports.controller.ControllerSequenceDetails">
+		<property name="formView"><value>sequenceDetailsScreen</value></property>
+		<property name="successView"><value>sequenceDetailsScreen</value></property>
+		<property name="userContext"><ref bean="userContext" /></property>
+		<property name="commandClass"><value>com.gavs.hishear.web.domain.Sequence</value></property>
+		<property name="dao"> <ref bean="SequenceDAO" /> </property>
+	</bean>
+	
+	<!-- Controller For Current Order Details report-->	
+	<bean id="controllerDeptWCAssetReport" class="com.gavs.hishear.web.reports.controller.ControllerDeptWCAssetReport">
+		<property name="formView"><value>assetDetailsScreen</value></property>
+		<property name="successView"><value>assetDetailsScreen</value></property>
+		<property name="userContext"><ref bean="userContext" /></property>
+		<property name="commandClass"><value>com.gavs.hishear.web.reports.DeptWCAssetReport</value></property>
+		<property name="validator"><ref bean="departmentValidator" /></property>
+		<property name="dao"> <ref bean="DeptWCAssetReportDAO" /> </property>
+	</bean>
+		
+	<!-- Controller For Logon Logoff Details report-->	
+	<bean id="controllerLogonLogoffDetails" class="com.gavs.hishear.web.reports.exceptional.controller.ControllerLogonLogoffDetails">
+		<property name="formView"><value>logonLogoffDetailsScreen</value></property>
+		<property name="successView"><value>logonLogoffDetailsScreen</value></property>
+		<property name="userContext"><ref bean="userContext" /></property>
+		<property name="commandClass"><value>com.gavs.hishear.web.reports.exceptional.domain.ExceptionalDto</value></property>
+	 	<property name="dao"> <ref bean="ExceptionalReportsDao" /> </property>
+	</bean>
+	
+	<!-- Controller For Modify Input Flag Module-->
+	<bean id="controllerModifyInputFlag" class="com.gavs.hishear.web.controllers.ModifyInputFlagController">
+		<property name="formView"><value>modifyInputFlagScreen</value></property>
+		<property name="successView"><value>modifyInputFlagScreen</value></property>
+		<property name="userContext"><ref bean="userContext" /></property>
+		<property name="m3APIWSClient"><ref bean="m3APIWSClient" /></property>
+		<property name="commandClass"><value>com.gavs.hishear.web.domain.Sequence</value></property>
+		<property name="dao"> <ref bean="SequenceDAO" /> </property>
+	</bean>
+	
+	<!-- Controller For Logout-->
+	<bean id="logoutController" class="com.gavs.hishear.web.controllers.LogoutController">
+		<property name="targetUrl"><value>login.htm</value></property>
+		<property name="userContext"><ref bean="userContext" /></property>
+		<property name="environment"> <ref bean="environment" /> </property>
+	</bean>
+	
+	<!-- Controller For Login-->
+	<bean id="loginController" class="com.gavs.hishear.web.controllers.LoginController">
+		<property name="formView"><value>loginScreen</value></property>
+		<property name="successView"><value>homeScreen</value></property>
+		<property name="commandClass"><value>com.gavs.hishear.web.domain.User</value></property>
+		<property name="validator"><ref bean="loginValidator" /></property>
+		<property name="dao"> <ref bean="loginDao" /> </property>
+		<property name="environment"> <ref bean="environment" /> </property>
+		<!-- Begin WO# 27639 - Moving Static links to dynamic - Pinky - Infosys - 23 June 2011 -->
+		<property name="applicationPropertyBean"><ref bean="applicationPropertyBean" /></property>
+		<property name="sequenceDAO"> <ref bean="SequenceDAO" /> </property>
+		<!-- End WO# 27639 - Moving Static links to dynamic - Pinky - Infosys -23 June 2011-->
+	</bean>
+	
+	<bean id="controllerResetItemWeight" class="com.gavs.hishear.web.controllers.ControllerResetItemWeight">
+		<property name="formView"><value>resetItemWeight</value></property>
+		<property name="successView"><value>resetItemWeight</value></property>
+		<property name="commandClass"><value>com.gavs.hishear.web.domain.Item</value></property>
+		<property name="dao"> <ref bean="itemDao" /> </property>
+		<property name="userContext"><ref bean="userContext" /></property>
+		<property name="m3APIWSClient"><ref bean="m3APIWSClient" /></property>
+	</bean>
+	
+	<bean id="controllerPickSequence" class="com.gavs.hishear.web.controllers.ControllerPickSequence">
+		<property name="formView"><value>pickSequence</value></property>
+		<property name="successView"><value>pickSequence</value></property>
+		<property name="commandClass"><value>com.gavs.hishear.web.domain.Sequence</value></property>
+		<property name="dao"> <ref bean="SequenceDAO" /> </property>
+		<property name="userContext"><ref bean="userContext" /></property>
+		<property name="validator"><ref bean="pickSequenceValidator" /></property>
+		<property name="m3APIWSClient"><ref bean="m3APIWSClient" /></property>		
+	</bean>
+	
+	<!-- Controller For Pending Order Details report-->	
+	<bean id="controllerPendingOrderDetails" class="com.gavs.hishear.web.reports.controller.ControllerPendingOrderDetails">
+		<property name="formView"><value>pendingOrderDetailsScreen</value></property>
+		<property name="successView"><value>pendingOrderDetailsScreen</value></property>
+		<property name="userContext"><ref bean="userContext" /></property>
+		<property name="commandClass"><value>com.gavs.hishear.web.domain.Sequence</value></property>
+		<property name="dao"> <ref bean="SequenceDAO" /> </property>
+		<property name="validator"><ref bean="wcReportValidator" /></property>
+	</bean>
+	
+	<!-- Controller for Activity Log Report -->
+	<bean id="controllerActivityLog" class="com.gavs.hishear.web.reports.management.controller.ControllerActivityLog">
+		<property name="formView"><value>activityLogScreen</value></property>
+		<property name="successView"><value>activityLogScreen</value></property>
+		<property name="userContext"><ref bean="userContext" /></property>
+		<property name="commandClass"><value>com.gavs.hishear.web.reports.management.domain.ManagementalDto</value></property>
+		<property name="dao"> <ref bean="ManagementReportsDao" /> </property>
+	</bean>
+	
+	<!-- Controller for Activity Log Summary Report -->
+	<bean id="controllerActivityLogSummary" class="com.gavs.hishear.web.reports.management.controller.ControllerActivityLogSummary">
+		<property name="formView"><value>activityLogSummaryScreen</value></property>
+		<property name="successView"><value>activityLogSummaryScreen</value></property>
+		<property name="userContext"><ref bean="userContext" /></property>
+		<property name="commandClass"><value>com.gavs.hishear.web.reports.management.domain.ManagementalDto</value></property>
+		<property name="dao"> <ref bean="ManagementReportsDao" /> </property>
+	</bean>
+	
+	<!-- Controller for Correction Interface Modify MO-->
+	<bean id="CorrectionIntModifyMOController" class="com.gavs.hishear.web.controllers.CorrectionIntModifyMOController">
+		<property name="formView"><value>correctionIntModifyMOScreen</value></property>
+		<property name="successView"><value>correctionIntModifyMOScreen</value></property>
+		<property name="userContext"><ref bean="userContext" /></property>
+		<property name="commandClass"><value>com.gavs.hishear.web.domain.ManufacturingOrder</value></property>
+		<property name="dao"> <ref bean="SequenceDAO" /> </property>
+		<property name="applicationPropertyBean"><ref bean="applicationPropertyBean" /></property>
+		<property name="modifyMOHelper"><ref bean="ControllerModifyMOHelper" /></property>		
+	</bean>
+	
+	<bean id="ControllerModifyMOHelper" class="com.gavs.hishear.web.controllers.ControllerModifyMOHelper">
+		<property name="userContext"><ref bean="userContext" /></property>
+		<property name="dao"> <ref bean="SequenceDAO" /> </property>
+		<property name="applicationPropertyBean"><ref bean="applicationPropertyBean" /></property>
+		<property name="m3APIWSClient"><ref bean="m3APIWSClient" /></property>		
+		<property name="itemDao"> <ref bean="itemDao" /> </property>
+	</bean>
+		
+	<!-- Begin WO# 26989 - PPH Threshold Interface - Ambrish.V - Infosys - 20 Apr 2011 -->
+	<!-- Controller for Work Center Configuration Interface -->
+	<bean id="workCenterConfigController" class="com.gavs.hishear.web.controllers.WorkCenterConfigController">
+		<property name="formView"><value>workCenterConfigScreen</value></property>
+		<property name="successView"><value>workCenterConfigScreen</value></property>
+		<property name="commandClass"><value>com.gavs.hishear.web.domain.ManufacturingOrder</value></property>
+		<property name="userContext"><ref bean="userContext" /></property>
+		<property name="dao"> <ref bean="SequenceDAO"/></property>
+		<property name="workCenterDao"> <ref bean="WorkCenterDAO" /> </property>
+		<property name="applicationPropertyBean"><ref bean="applicationPropertyBean" /></property>	
+	</bean>
+	
+	<!-- Controller for Asset Configuration Interface -->
+	<bean id="assetConfigController" class="com.gavs.hishear.web.controllers.AssetConfigController">
+		<property name="formView"><value>assetConfigScreen</value></property>
+		<property name="successView"><value>assetConfigScreen</value></property>
+		<property name="commandClass"><value>com.gavs.hishear.web.domain.ManufacturingOrder</value></property>
+		<property name="userContext"><ref bean="userContext" /></property>
+		<property name="dao"> <ref bean="SequenceDAO"/></property>
+		<property name="workCenterDao"> <ref bean="WorkCenterDAO" /> </property>
+		<property name="applicationPropertyBean"><ref bean="applicationPropertyBean" /></property>	
+	</bean>
+	
+	<!-- Controller for Configuration Division Parameters Interface -->
+	<bean id="configDivisionController" class="com.gavs.hishear.web.controllers.ConfigDivisionController">
+		<property name="formView"><value>configDivisionScreen</value></property>
+		<property name="successView"><value>configDivisionScreen</value></property>
+		<property name="commandClass"><value>com.gavs.hishear.web.domain.ConfigDivision</value></property>
+		<property name="userContext"><ref bean="userContext" /></property>
+		<property name="workCenterDao"> <ref bean="WorkCenterDAO" /> </property>
+	</bean>
+	
+	<!-- Controller for Reason Master Configuration Interface -->
+	<bean id="configReasonController" class="com.gavs.hishear.web.controllers.ConfigReasonController">
+		<property name="formView"><value>configReasonScreen</value></property>
+		<property name="successView"><value>configReasonScreen</value></property>
+		<property name="commandClass"><value>com.gavs.hishear.web.domain.ReasonCode</value></property>
+		<property name="userContext"><ref bean="userContext" /></property>
+		<property name="dao"> <ref bean="SequenceDAO"/></property>
+		<property name="workCenterDao"> <ref bean="WorkCenterDAO" /> </property>
+		<property name="applicationPropertyBean"><ref bean="applicationPropertyBean" /></property>	
+	</bean>
+	<!-- End WO# 26989 - PPH Threshold Interface - Ambrish.V - Infosys - 20 Apr 2011 -->
+	
+	<!-- Controller for Daily Performance Assetwise  Report -->
+	<bean id="controllerPerformanceAssetwiseReport" class="com.gavs.hishear.web.reports.management.controller.ControllerPerformanceAssetwiseReport">
+		<property name="formView"><value>performanceAssetwiseScreen</value></property>
+		<property name="successView"><value>performanceAssetwiseScreen</value></property>
+		<property name="userContext"><ref bean="userContext" /></property>
+		<property name="commandClass"><value>com.gavs.hishear.web.reports.factory.domain.FactoryDto</value></property>
+		<property name="dao"> <ref bean="ManagementReportsDao" /> </property>
+	</bean>
+	
+	<bean id="controllerWIPStatus" class="com.gavs.hishear.web.reports.management.controller.ControllerWIPStatusReport">
+		<property name="formView"><value>wipStatusForm</value></property>
+		<property name="successView"><value>wipStatusForm</value></property>
+		<property name="userContext"><ref bean="userContext" /></property>
+		<property name="commandClass"><value>com.gavs.hishear.web.reports.management.domain.WIPStatusDto</value></property>
+		<property name="dao"> <ref bean="WIPStatusReportDao" /> </property>
+		<property name="sessionForm"><value>true</value></property>
+	</bean>
+	
+	<!-- Controller For Employee Output by Shift report-->	
+	<bean id="controllerEmployeeOutput" class="com.gavs.hishear.web.reports.management.controller.ControllerEmployeeOutput">
+		<property name="formView"><value>employeeOutputScreen</value></property>
+		<property name="successView"><value>employeeOutputScreen</value></property>
+		<property name="userContext"><ref bean="userContext" /></property>
+		<property name="commandClass"><value>com.gavs.hishear.web.reports.management.domain.EmployeeOutputDto</value></property>
+	 	<property name="dao"> <ref bean="ManagementReportsDao" /> </property>
+	</bean>
+	
+	<bean id="controllerComponentDetail" class="com.gavs.hishear.web.controllers.ControllerComponentDetail">
+		<property name="formView"><value>componentDetail</value></property>
+		<property name="successView"><value>componentDetail</value></property>
+		<property name="commandClass"><value>com.gavs.hishear.web.domain.Item</value></property>
+		<property name="dao"> <ref bean="itemDao" /> </property>
+		<property name="userContext"><ref bean="userContext" /></property>
+	</bean>
+	
+	<!-- Controller Uopdate Item Weight -->
+	<bean id="controllerUpdateItemWeight" class="com.gavs.hishear.web.controllers.ControllerUpdateItemWeight">
+		<property name="formView"><value>updateItemWeightScreen</value></property>
+		<property name="successView"><value>updateItemWeightScreen</value></property>
+		<property name="commandClass"><value>com.gavs.hishear.web.domain.Sequence</value></property>
+		<property name="dao"> <ref bean="itemDao" /> </property>
+		<property name="userContext"><ref bean="userContext" /></property>
+	</bean>
+	
+	<bean id="pickSequenceValidator" class="com.gavs.hishear.web.reports.validator.PickSequenceValidator">
+		<property name="dao"> <ref bean="SequenceDAO" /> </property>
+		<property name="userContext"><ref bean="userContext" /></property>
+		<property name="m3APIWSClient"><ref bean="m3APIWSClient" /></property>
+	</bean>
+	
+	<bean id="wcReportValidator" class="com.gavs.hishear.web.reports.validator.WCReportValidator">
+		<property name="deptWCAssetReportDAO"> <ref bean="DeptWCAssetReportDAO" /> </property>
+		<property name="userContext"><ref bean="userContext" /></property>
+	</bean>
+	
+	
+	<bean id="departmentValidator" class="com.gavs.hishear.web.reports.validator.DepartmentValidator">
+		<property name="deptWCAssetReportDAO"> <ref bean="DeptWCAssetReportDAO" /> </property>
+		<property name="userContext"><ref bean="userContext" /></property>
+	</bean>
+	
+	<!-- Controller For Correction Tracking Details report-->	
+	<bean id="controllerCorrectionTrackingDetails" class="com.gavs.hishear.web.reports.management.controller.ControllerCorrectionTrackingDetails">
+		<property name="formView"><value>correctionTrackingDetailsScreen</value></property>
+		<property name="successView"><value>correctionTrackingDetailsScreen</value></property>
+		<property name="userContext"><ref bean="userContext" /></property>
+		<property name="commandClass"><value>com.gavs.hishear.web.reports.management.domain.ManagementalDto</value></property>
+		<property name="dao"> <ref bean="ManagementReportsDao" /> </property>
+	</bean>
+	
+	<!-- Controller For M3 Transaction Log Report-->	
+	<bean id="controllerM3TransactionLogReport" class="com.gavs.hishear.web.reports.management.controller.ControllerM3TransactionLogReport">
+		<property name="formView"><value>m3TransactionLogReportScreen</value></property>
+		<property name="successView"><value>m3TransactionLogReportScreen</value></property>
+		<property name="commandClass"><value>com.gavs.hishear.web.domain.M3RequestLog</value></property>
+		<property name="userContext"><ref bean="userContext" /></property>
+		<property name="dao"> <ref bean="ManagementReportsDao" /> </property>
+	</bean>
+	
+	<!-- Controller For Outside Operation Rejection Page Module-->
+	<bean id="controllerReverseOutsideOperation" class="com.gavs.hishear.web.controllers.ControllerReverseOutsideOperation">
+		<property name="formView"><value>outsideOperationRejectionScreen</value></property>
+		<property name="successView"><value>outsideOperationRejectionScreen</value></property>
+		<property name="userContext"><ref bean="userContext" /></property>
+		<property name="m3APIWSClient"><ref bean="m3APIWSClient" /></property>
+		<property name="commandClass"><value>com.gavs.hishear.web.domain.ReversalDto</value></property>
+		<property name="validator"> <ref bean="outsideOperationReversalValidator" /> </property>
+		<property name="itemDao"> <ref bean="itemDao" /> </property>
+		<property name="sequenceDAO"> <ref bean="SequenceDAO" /> </property>
+		<property name="applicationPropertyBean"><ref bean="applicationPropertyBean" /></property>
+		<property name="sessionForm"><value>true</value></property>
+	</bean>
+	
+	<bean id="outsideOperationReversalValidator" class="com.gavs.hishear.web.reports.validator.OutsideOperationReversalValidator">
+		<property name="sequenceDAO"> <ref bean="SequenceDAO" /> </property>
+		<property name="userContext"><ref bean="userContext" /></property>
+		<property name="m3APIWSClient"><ref bean="m3APIWSClient" /></property>
+	</bean>
+	
+	
+	<!-- Controller For Outside Operation Rejection Page Module-->
+	<bean id="controllerReverseInspectionOperation" class="com.gavs.hishear.web.controllers.ControllerReverseInspectionOperation">
+		<property name="formView"><value>inspectionOperationRejectionScreen</value></property>
+		<property name="successView"><value>inspectionOperationRejectionScreen</value></property>
+		<property name="userContext"><ref bean="userContext" /></property>
+		<property name="m3APIWSClient"><ref bean="m3APIWSClient" /></property>
+		<property name="commandClass"><value>com.gavs.hishear.web.domain.ReversalDto</value></property>
+		<property name="validator"> <ref bean="inspectionOperationReversalValidator" /> </property>
+		<property name="sequenceDAO"> <ref bean="SequenceDAO" /> </property>
+		<property name="exceptionalReportsDao"> <ref bean="ExceptionalReportsDao" /> </property>
+		<property name="applicationPropertyBean"><ref bean="applicationPropertyBean" /></property>
+		<property name="sessionForm"><value>true</value></property>
+	</bean>
+	
+	<bean id="inspectionOperationReversalValidator" class="com.gavs.hishear.web.reports.validator.InspectionOperationReversalValidator">
+		<property name="sequenceDAO"> <ref bean="SequenceDAO" /> </property>
+		<property name="userContext"><ref bean="userContext" /></property>
+		<property name="m3APIWSClient"><ref bean="m3APIWSClient" /></property>
+	</bean>
+	
+	<!-- Begin - 26978 - new interface Quality Standard Time - Pinky - Infosys - 20 Apr 2011 -->
+	<bean id="controllerQualityStandardTime" class="com.gavs.hishear.web.controllers.ControllerQualityStandardTime">
+		<property name="formView"><value>qualityStandardTimeScreen</value></property>
+		<property name="successView"><value>qualityStandardTimeScreen</value></property>
+		<property name="userContext"><ref bean="userContext" /></property>
+		<property name="commandClass"><value>com.gavs.hishear.web.domain.StandardTime</value></property>
+		<property name="dao"> <ref bean="FactoryDao" /> </property>
+	</bean>
+	
+	<bean id="qualityStandardTimeActionsHandler" class="com.gavs.hishear.web.ajax.QualityStandardTimeActionsHandler"> 
+	</bean>
+	<!-- End - 26978 - new interface Quality Standard Time - Pinky - Infosys - 20 Apr 2011 -->
+
+	<!-- Handler For M3 Transaction Log Report-->
+	<bean id="m3TransactionLogReportActionsHandler" class="com.gavs.hishear.web.ajax.M3TransactionLogActionsHandler" />	
+	
+	<!-- Controller For M3 Transaction Log Report-->	
+	<bean id="controllerM3TransactionReconciliation" class="com.gavs.hishear.web.reports.management.controller.ControllerM3TransactionReconciliation">
+		<property name="formView"><value>m3TransactionReconciliationScreen</value></property>
+		<property name="successView"><value>m3TransactionReconciliationScreen</value></property>
+		<property name="commandClass"><value>com.gavs.hishear.web.domain.M3RequestLog</value></property>
+		<property name="userContext"><ref bean="userContext" /></property>
+		<property name="dao"> <ref bean="ManagementReportsDao" /> </property>
+		<property name="applicationPropertyBean"><ref bean="applicationPropertyBean" /></property>
+	</bean>
+	
+	<!-- Handler For M3 Transaction Log Report-->
+	<bean id="m3TransactionReconciliationActionsHandler" class="com.gavs.hishear.web.ajax.M3TransactionReconciliationActionsHandler" />
+	
+	<!--  DAO For Login Page  -->
+	<bean id="loginDao" class="com.gavs.hishear.web.dao.LoginDAOImpl">
+		<property name="dataSource"><ref bean="dataSource" /></property>
+		<!-- Begin WO# 27639 - Moving Static links to dynamic -  Pinky - Infosys - 23 June 2011 -->
+		<property name="applicationPropertyBean"><ref bean="applicationPropertyBean" /></property>
+		<property name="ds1"> <ref bean="defaultDataSource" /> </property>
+		<!-- End WO# 27639 - Moving Static links to dynamic -  Pinky - Infosys - 23 June 2011 -->
+	</bean>
+	
+	<bean id="itemDao" class="com.gavs.hishear.web.dao.ItemDAOImpl">
+		<property name="dataSource"><ref bean="dataSource" /></property>
+	</bean>
+	
+	<!--  DAO For Exceptional Reports Page  -->
+	<bean id="ExceptionalReportsDao" class="com.gavs.hishear.web.reports.exceptional.dao.ExceptionalDaoImpl">
+		<property name="dataSource"><ref bean="dataSource" /></property>
+	</bean>
+
+    <bean id="m3APIClient" class="com.gavs.hishear.m3interface.M3APIClient">
+        <property name="applicationProperty" ref="applicationPropertyBean"/>
+    </bean>
+	<!--  DAO For Management Reports Page  -->
+	<bean id="ManagementReportsDao" class="com.gavs.hishear.web.reports.management.dao.ManagementDaoImpl">
+		<property name="dataSource"><ref bean="dataSource" /></property>
+		<property name="m3APIWSClient"><ref bean="m3APIWSClient" /></property>
+		<property name="applicationPropertyBean"><ref bean="applicationPropertyBean" /></property>
+		<property name="m3APIClient"><ref bean="m3APIClient" /></property>
+	</bean>
+	
+	
+	<bean id="WIPStatusReportDao" class="com.gavs.hishear.web.reports.management.dao.WIPStatusReportDaoImpl">
+		<property name="dataSource"><ref bean="dataSource" /></property>
+	</bean>
+	
+	<!--  DAO For Factory Reports Page  -->
+	<bean id="FactoryDao" class="com.gavs.hishear.web.reports.factory.dao.FactoryDaoImpl">
+		<property name="dataSource"><ref bean="dataSource" /></property>
+	</bean>
+	
+	<!--  DAO For Modify Input Flag Page  -->
+	<bean id="SequenceDAO" class="com.gavs.hishear.web.dao.SequenceDAOImpl">
+		<property name="dataSource"><ref bean="dataSource" /></property>
+		<property name="applicationPropertyBean"><ref bean="applicationPropertyBean" /></property>
+		<property name="m3APIWSClient"><ref bean="m3APIWSClient" /></property>
+				<property name="allocationEngineService" ref="allocationEngineService" />
+	</bean>
+	
+	<!--  DAO For Work Center Configuration Interface  -->
+	<bean id="WorkCenterDAO" class="com.gavs.hishear.web.dao.WorkCenterDAOImpl">
+		<property name="dataSource"><ref bean="dataSource" /></property>
+		<property name="applicationPropertyBean"><ref bean="applicationPropertyBean" /></property>
+	</bean>
+	
+	<!--  DAO For Asset Details -->
+	<bean id="DeptWCAssetReportDAO" class="com.gavs.hishear.web.dao.DeptWCAssetReportDAOImpl">
+		<property name="dataSource"><ref bean="dataSource" /></property>
+		<!-- <property name="dataSourceFS"><ref bean="dataSourceFS" /></property>
+-->
+		
+	</bean>
+	
+	<!-- Ajax Handler for Quantity Input Flag Screen -->
+	<bean id="quantityInputFlagActionsHandler" class="com.gavs.hishear.web.ajax.QuantityInputFlagActionsHandler">
+	<property name="dao"> <ref bean="SequenceDAO" /> </property>
+	<property name="userContext"><ref bean="userContext" /></property>
+	</bean>
+	
+	<!-- Ajax Handler for factory summery Screen -->
+	<bean id="factoryActionsHandler" class="com.gavs.hishear.web.ajax.FactorySummeryActionsHandler">
+	<property name="dao"> <ref bean="FactoryDao" /> </property>
+	<property name="userContext"><ref bean="userContext" /></property>
+	</bean>
+	
+	<bean id="qtyCaptureRequiredActionsHandler" class="com.gavs.hishear.web.ajax.QtyCaptureRequiredActionsHandler">
+	<property name="dao"> <ref bean="DeptWCAssetReportDAO" /> </property>
+	<property name="userContext"><ref bean="userContext" /></property>
+	</bean>
+	
+	<bean id="updateItemWeightActionsHandler" class="com.gavs.hishear.web.ajax.UpdateItemWeightActionsHandler">
+	<property name="dao"> <ref bean="itemDao" /> </property>
+	<property name="userContext"><ref bean="userContext" /></property>
+	<property name="m3APIWSClient"><ref bean="m3APIWSClient" /></property>
+	</bean>
+	
+	<bean id="componentDetailActionsHandler" class="com.gavs.hishear.web.ajax.ComponentDetailActionsHandler">
+		<property name="dao"> <ref bean="itemDao" /> </property>
+		<property name="userContext"><ref bean="userContext" /></property>				
+	</bean>
+	
+	<bean id="applicationPropertyBean" class="com.gavs.hishear.web.domain.ApplicationPropertyBean">
+        <property name="m3Server" value="${m3.server}" />
+        <property name="m3Port" value="${m3.port}" />
+   		<property name="m3EndPointUrl"><value>${M3.ENDPOINTURL}</value></property>
+   		<property name="m3Username"><value>${M3.USERNAME}</value></property>
+   		<property name="m3Password"><value>${M3.PASSWORD}</value></property>
+   		<property name="m3Namespace"><value>${NAMESPACE}</value></property>
+   		<property name="m3HeaderPrefix"><value>${MWS_HEADER_NS_PREFIX}</value></property>
+   		<property name="m3HeaderURI"><value>${MWS_HEADER_NS_URI}</value></property>
+   		<property name="company"><value>${COMPANY}</value></property>
+   	<!-- 	<property name="morvLocation"><value>${MORV.LOCATION}</value></property>
+   		<property name="shippingDays"><value>${SHIPPING.DAYS}</value></property>
+		<property name="minimumStockAllocationPercentage"><value>${MIN.STOCK.ALLOCATION.PERCENTAGE}</value></property>
+		<property name="ignorableShippedQuantityPercentage"><value>${IGNORABLE.SHIPPED.QUANTITY.PERCENTAGE}</value></property>
+		<property name="thresholdPrice"><value>${THRESHOLD.PRICE}</value></property>
+		<property name="ignoredLocations"><value>${IGNORED.LOCATIONS}</value></property>
+		<property name="leastAllocationPriorityLocation"><value>${LEAST.ALLOCATION.PRIORITY.LOCATION}</value></property>
+		<property name="customersDontAcceptPartialShipment"><value>${CUSTOMERS.DONT.ACCEPT.PARTIAL.SHIPMENTS}</value></property>
+		<property name="allocationEngineServicePath"><value>${ALLOCATION.ENGINE.SERVICE.PATH}</value></property> -->
+		
+		<property name="priorityForPMS050MIWrite"><value>${PMS050MI.WRITE.PRIORITY}</value></property>
+		<property name="priorityForLIS200Write"><value>${LIS200.WRITE.PRIORITY}</value></property>
+		<property name="priorityForPMS130Write"><value>${PMS130.WRITE.PRIORITY}</value></property>
+		<property name="priorityForPMS070Write"><value>${PMS070MI.WRITE.PRIORITY}</value></property>
+		
+	<!--  	<property name="considerCustomerPreferencesForHSC"><value>${CONSIDER.CUSTOMER.PREFERENCES.FOR.HSC}</value></property>
+		<property name="considerCustomerPreferencesForMDK"><value>${CONSIDER.CUSTOMER.PREFERENCES.FOR.MDK}</value></property> -->
+		<property name="webServicesWithTransType"><value>${WEBSERVICES.WITH.TRANS.TYPE}</value></property>
+		
+		<property name="keyFieldsMHS850MIBoltOn"><value>${MHS850MI.KEY.FIELDS.BOLT.ON}</value></property>
+		<property name="keyFieldsMMZ428MIBoltOn"><value>${MMZ428MI.KEY.FIELDS.BOLT.ON}</value></property>
+		<property name="keyFieldsMWZ422MIBoltOn"><value>${MWZ422MI.KEY.FIELDS.BOLT.ON}</value></property>
+		<property name="keyFieldsPMS050MIBoltOn"><value>${PMS050MI.KEY.FIELDS.BOLT.ON}</value></property>
+		<property name="keyFieldsPMS130BoltOn"><value>${PMS130.KEY.FIELDS.BOLT.ON}</value></property>
+		<property name="keyFieldsPPS320BoltOn"><value>${PPS320.KEY.FIELDS.BOLT.ON}</value></property>
+		<property name="keyFieldsPPY001MIBoltOn"><value>${PPY001MI.KEY.FIELDS.BOLT.ON}</value></property>
+		
+		<property name="keyFieldsMHS850MIM3"><value>${MHS850MI.KEY.FIELDS.M3}</value></property>
+		<property name="keyFieldsMMZ428MIM3"><value>${MMZ428MI.KEY.FIELDS.M3}</value></property>
+		<property name="keyFieldsMWZ422MIM3"><value>${MWZ422MI.KEY.FIELDS.M3}</value></property>
+		<property name="keyFieldsPMS050MIM3"><value>${PMS050MI.KEY.FIELDS.M3}</value></property>
+		<property name="keyFieldsPMS130M3"><value>${PMS130.KEY.FIELDS.M3}</value></property>
+		<property name="keyFieldsPPS320M3"><value>${PPS320.KEY.FIELDS.M3}</value></property>
+		<property name="keyFieldsPPY001MIM3"><value>${PPY001MI.KEY.FIELDS.M3}</value></property>
+		
+		<property name="transTypeMHS850MI"><value>${MHS850MI.TRANS.TYPE}</value></property>
+		<property name="transTypeMMZ428MI"><value>${MMZ428MI.TRANS.TYPE}</value></property>
+		<property name="transTypeMWZ422MI"><value>${MWZ422MI.TRANS.TYPE}</value></property>
+		<property name="transTypePMS050MI"><value>${PMS050MI.TRANS.TYPE}</value></property>
+		<property name="transTypePMS130"><value>${PMS130.TRANS.TYPE}</value></property>
+		<property name="transTypePPS320"><value>${PPS320.TRANS.TYPE}</value></property>
+		<property name="transTypePPY001MI"><value>${PPY001MI.TRANS.TYPE}</value></property>
+		
+		<property name="webServicesComparableFields"><value>${WEBSERVICES.COMPARABLE.FIELDS}</value></property>
+		<!-- Begin WO# 27639 - Moving Static links to dynamic - Pinky - Infosys - 23 June 2011 -->
+		<property name="ldapUrl"><value>${ldap.providerURL}</value></property>
+		<property name="ldapUrlSecond"><value>${ldap.providerURL.second}</value></property>
+		<property name="ldapSecurity"><value>${ldap.security.principle}</value></property>
+		<property name="pabDC"><value>${ldap.pabDC}</value></property>
+        <property name="welcomeMessageText"><value>${WELCOME_MESSAGE_TEXT}</value></property>
+        <property name="welcomeMessageType"><value>${WELCOME_MESSAGE_TYPE}</value></property>
+         <property name="dynamicMessagePath"><value>${DynamicMessage_SFSA}</value></property>
+		<!-- End WO# 27639 - Moving Static links to dynamic - Pinky - Infosys - 23 June 2011 -->
+   	</bean>
+   	
+   	<bean id="m3APIWSClient"
+		class="com.gavs.hishear.m3interface.M3APIWSClient">
+		<property name="applicationPropertyBean" ref="applicationPropertyBean" />
+	</bean>
+	
+	<!-- Ajax Handler For Correction Interface report -->
+	<bean id="correctionInterfaceActionsHandler" class="com.gavs.hishear.web.ajax.CorrectionInterfaceActionHandler">
+	</bean>
+	
+	<bean id="allocationEngineService" class="com.gavs.lisi.integration.allocation.AllocationEngineServiceImpl">
+		<property name="applicationPropertyBean"><ref bean="applicationPropertyBean" /></property>
+	</bean>
+	
+	<!-- Ajax Handler For PPH Correction Interface report -->
+ 	<bean id="pphCorrectionInterfaceActionsHandler" class="com.gavs.hishear.web.ajax.PPHCorrectionInterfaceActionHandler"> 
+	</bean> 
+	
+	
+	<bean id="outsideOperationReversalActionsHandler" class="com.gavs.hishear.web.ajax.OutsideOperationReversalActionsHandler"> 
+	</bean>
+	
+	<bean id="inspectionOperationReversalActionsHandler" class="com.gavs.hishear.web.ajax.InspectionOperationReversalActionsHandler"> 
+	</bean>
+	
+<!-- Ajax Handler For Correction Interface Modify MO  -->
+	<bean id="correctionIntModifyMOActionsHandler" class="com.gavs.hishear.web.ajax.CorrectionIntModifyMOActionsHandler">
+	</bean>
+
+	<!-- Begin WO# 26989 - PPH Threshold Interface - Ambrish.V - Infosys - 20 Apr 2011 -->
+	<!-- Ajax Handler For Work Center Configuration Interface -->
+	<bean id="workCenterConfigActionHandler" class="com.gavs.hishear.web.ajax.WorkCenterConfigActionHandler">
+	</bean>
+	<!-- Ajax Handler For Asset Configuration Interface -->
+	<bean id="assetConfigActionHandler" class="com.gavs.hishear.web.ajax.AssetConfigActionHandler">
+	</bean>
+	<!-- Ajax Handler For Reason Master Configuration Interface -->
+	<bean id="reasonConfigActionHandler" class="com.gavs.hishear.web.ajax.ReasonConfigActionHandler">
+	</bean>
+	<!-- End WO# 26989 - PPH Threshold Interface - Ambrish.V - Infosys - 20 Apr 2011 -->
+	
+	<!-- Controller For F Correction Interface report-->	
+	<bean id="controllerPPHCorrection" class="com.gavs.hishear.web.reports.controller.ControllerPPHCorrection">
+		<property name="formView"><value>pphCorrectionInterfaceScreen</value></property>
+		<property name="successView"><value>pphCorrectionInterfaceScreen</value></property>
+		<property name="userContext"><ref bean="userContext" /></property>
+		<property name="m3APIWSClient"><ref bean="m3APIWSClient" /></property>
+		<property name="commandClass"><value>com.gavs.hishear.web.domain.ManufacturingOrder</value></property>
+		<property name="dao"> <ref bean="SequenceDAO" /> </property>
+		<property name="applicationPropertyBean"><ref bean="applicationPropertyBean" /></property>
+	</bean>
+	
+		
+	<bean id="environment" class="com.gavs.hishear.configurations.Environment" >
+		<property name="m3Environment"><value>${M3.ENVIRONMENT}</value></property>
+		<property name="databaseServer"><value>${jdbc.overrideHost}</value></property>
+		<property name="databaseName"><value>${jdbc.overrideDb}</value></property>
+		<property name="version"><value>1.2.16</value></property>
+	</bean>
+	
+</beans>

@@ -1,0 +1,21 @@
+/* footer*/
+#footer {
+	clear: both;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 8pt;
+	text-align: center;
+	color:#495E83;
+	border: 0px solid #495e83;
+	margin-left: 0px;
+	margin-right: -3px;
+	margin-bottom: -9px;
+	border-left: 1px solid #495e83;
+	border-right: 1px solid #495e83;
+	border-bottom: 1px solid #495e83;	
+	border-top: 1px solid #495e83;
+	width: 99%;
+}
+#footer a:link 		{ text-decoration: underline; color: #818996; }
+#footer a:visited	{ text-decoration: underline; color: #818996; }
+#footer a:hover 	{ text-decoration: underline; color: #818996; }
+#footer a:active 	{ text-decoration: underline; color: #818996; }

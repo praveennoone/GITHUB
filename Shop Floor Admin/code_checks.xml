@@ -1,0 +1,63 @@
+<project name="Check code quality project" 
+	basedir=".">
+	<property name="checkstyle.home" location="./war/WEB-INF/lib/checkstyle" />
+	<property name="cobertura.home" value="./war/WEB-INF/lib/cobertura" />
+	<property name="instrumented.dir" location="${basedir}/build/cobertura" />
+	<property name="checkstyle.target" value="${basedir}/build/checkstyle" />
+
+	<taskdef resource="checkstyletask.properties" classpath="${checkstyle.home}/checkstyle-5.4-all.jar" />
+	<target name="checkstyle">
+		<mkdir dir="${checkstyle.target}" />
+		<checkstyle config="${checkstyle.home}/sun_checks.xml"
+			failOnViolation="false">
+			<formatter type="xml"
+				tofile="${checkstyle.target}/checkstyle_report.xml" />
+			<fileset dir="${basedir}/src" includes="**/*.java" />
+		</checkstyle>
+		<xslt in="${checkstyle.target}/checkstyle_report.xml" out="${checkstyle.target}/checkstyle_report.html"
+			style="${checkstyle.home}/checkstyle-frames-errors.xsl" />
+	</target>
+
+	<path id="cobertura.classpath">
+		<fileset dir="${cobertura.home}">
+			<include name="cobertura.jar" />
+			<include name="lib/**/*.jar" />
+		</fileset>
+	</path>
+	<taskdef classpathref="cobertura.classpath" resource="tasks.properties" />
+		<target name="cobertura-instrument" depends="compile">
+			<delete file="${basedir}/cobertura.ser" />
+			<cobertura-instrument todir="${instrumented.dir}" datafile="${basedir}/cobertura.ser">
+				<fileset dir="${build.classes.dir}">
+					 <include name="**/*.class" />
+					 <exclude name="**/*Test.class" />
+					</fileset>
+			</cobertura-instrument>
+		</target>
+		<target name="cobertura" depends="test">
+			<cobertura-report srcdir="${basedir}/src/java" destdir="${instrumented.dir}" format="html">
+				<fileset dir="${basedir}/src/java">
+					<include name="**/*.java" />
+					<exclude name="**/*Stub.java" />
+				</fileset>
+			</cobertura-report>
+		</target>
+	
+	<target name="cobertura-report-zip" description="Pack cobertura reports" depends="cobertura" >
+				<zip destfile="${basedir}/build/cobertura.zip">
+				 	<fileset dir="${instrumented.dir}">
+				 		<include name="**/*.*" />
+				 	</fileset>
+				</zip>
+	</target>
+	
+	 
+	<target name="checkstyle-report-zip" description="Pack checkstyle reports" depends="checkstyle" >
+					<zip destfile="${basedir}/build/checkstyle.zip">
+					 	<fileset dir="${checkstyle.target}">
+					 		<include name="**/*.*" />
+					 	</fileset>
+					</zip>
+	</target>
+
+</project>

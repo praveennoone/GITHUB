@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration>
+	<appender name="STDOUT" class="org.apache.log4j.ConsoleAppender">
+		<param name="Target" value="System.out" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="[%d{ISO8601}] %-5p %c %m %n" />
+		</layout>
+		<filter class="org.apache.log4j.varia.LevelRangeFilter">
+			<param name="LevelMin" value="INFO" />
+			<param name="LevelMax" value="FATAL" />
+		</filter>
+	</appender>
+	<appender name="STDERR" class="org.apache.log4j.ConsoleAppender">
+		<param name="Target" value="System.err" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="[%d{ISO8601}] %-5p %c %m %n" />
+		</layout>
+		<filter class="org.apache.log4j.varia.LevelRangeFilter">
+			<param name="LevelMin" value="WARN" />
+			<param name="LevelMax" value="FATAL" />
+		</filter>
+	</appender>
+
+	<!-- -->
+	<!-- Declare the SMTPAppender -->
+	<!-- -->
+	<appender name="EMAIL" class="org.apache.log4j.net.SMTPAppender">
+		<param name="BufferSize" value="512" />
+		<param name="SMTPHost" value="hsc9a.HiShear.local" />
+		<param name="SMTPUsername" value="KamalB@HISHEAR" />
+		<param name="SMTPPassword" value="pass_123" />
+		<param name="From" value="reporter@lisi-aerospace.us" />
+		<param name="To" value="kamal.bahadur@lisi-aerospace.us" />
+		<param name="Subject" value="SFS Web - Application Message" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="[%d{ISO8601}]%n%n%-5p%n%n%c%n%n%m%n%n" />
+		</layout>
+		<filter class="org.apache.log4j.varia.LevelRangeFilter">
+			<param name="LevelMin" value="FATAL" />
+			<param name="LevelMax" value="FATAL" />
+		</filter>
+	</appender>
+
+	<!-- <appender name="HELPDESK" class="org.apache.log4j.net.SMTPAppender"> 
+		<param name="Threshold" value="FATAL"/> <param name="BufferSize" value="512" 
+		/> <param name="SMTPHost" value="hsc9a.HiShear.local" /> <param name="SMTPUsername" 
+		value="KamalB@HISHEAR" /> <param name="SMTPPassword" value="pass_123" /> 
+		<param name="From" value="SFS@lisi-aerospace.us" /> <param name="To" value="gavsus.appsupport@lisi-aerospace.us" 
+		/> <param name="Subject" value="Shop Floor System Message" /> <layout class="org.apache.log4j.PatternLayout"> 
+		<param name="ConversionPattern" value="[%d{ISO8601}]%n%n%-5p%n%n%c%n%n%m%n%n" 
+		/> </layout> <filter class="org.apache.log4j.varia.LevelRangeFilter"> <param 
+		name="LevelMin" value="FATAL"/> <param name="LevelMax" value="FATAL"/> </filter> 
+		</appender> -->
+
+	<appender name="FILE" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="Threshold" value="FATAL" />
+		<param name="DatePattern" value="'.'MM-dd-yyyy" />
+		<!-- <param name="File"
+			value="C:/Documents and Settings/All Users/ShopFloorSystem.log" /> -->
+		<param name="File"
+			value="C:/Bolt-On_logs/SFS Admin/server.log" />
+		<param name="Append" value="true" />
+		<param name="MaxFileSize" value="10024KB" />
+		<param name="MaxBackupIndex" value="10" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{HH:mm:ss:SSS} - %p - %C{1} - %m%n" />
+		</layout>
+		<filter class="org.apache.log4j.varia.LevelRangeFilter">
+			<param name="LevelMin" value="DEBUG" />
+			<param name="LevelMax" value="FATAL" />
+		</filter>
+	</appender>
+	<appender name="WindowsEventLogM3" class="org.apache.log4j.nt.NTEventLogAppender">
+		<param name="Threshold" value="INFO" />
+		<param name="Source" value="ShopFloorAdminM3" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%m%n" />
+		</layout>
+	</appender>
+
+	<!-- -->
+	<!-- setup log4j's root logger -->
+	<!-- -->
+	<logger name="WindowsEventLog-M3">
+		<level value="debug" />
+		<appender-ref ref="WindowsEventLogM3" />
+	</logger>
+
+	<!-- -->
+	<!-- setup log4j's root logger -->
+	<!-- -->
+	<root>
+		<level value="all" />
+		<appender-ref ref="STDOUT" />
+		<appender-ref ref="STDERR" />
+		<appender-ref ref="EMAIL" />
+		<appender-ref ref="HELPDESK" />
+		<appender-ref ref="FILE" />
+	</root>
+</log4j:configuration>

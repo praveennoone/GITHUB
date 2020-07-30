@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+    version="2.4">
+	<!--<distributable/>-->
+	<!-- Servlet Definitions -->
+		<servlet>
+			<servlet-name> ShopFloorAdminStartUp</servlet-name>
+			<servlet-class> com.gavs.hishear.configurations.InitializeServlet</servlet-class>
+				<init-param>
+					<param-name>contextConfig</param-name>
+					<param-value>
+						/WEB-INF/Lisi-StartUp.xml
+					</param-value>					
+				</init-param>
+				<load-on-startup>1</load-on-startup>
+		</servlet>
+		<servlet>
+			<servlet-name>ShopFloorSystem</servlet-name>
+			<servlet-class> org.springframework.web.servlet.DispatcherServlet </servlet-class>
+			<init-param>
+				<param-name>contextConfigLocation</param-name>
+				<param-value>
+					/WEB-INF/RealTime-servlet.xml,
+					/WEB-INF/RealTimeWeb-config.xml
+				</param-value>					
+			</init-param>
+			<load-on-startup>2</load-on-startup>
+		</servlet>
+		<servlet>
+			<servlet-name>ShopFloorAdminCleanUp</servlet-name>
+			<servlet-class> com.gavs.hishear.configurations.CleanUpServlet </servlet-class>
+			<init-param>
+				<param-name>contextConfigCleanUp</param-name>
+				<param-value>
+					/WEB-INF/lisi-cleanUp.xml
+				</param-value>					
+			</init-param>
+			<load-on-startup>3</load-on-startup>
+		</servlet>
+	<!-- End Servlet Definitions -->		
+	
+	<!-- Servlet Mappings -->
+		<servlet-mapping>
+			<servlet-name>ShopFloorSystem</servlet-name>
+			<url-pattern>*.htm</url-pattern>
+		</servlet-mapping>		
+	
+	<!-- End Servlet Mappings -->
+	
+	<!-- Welcome File List	-->
+		<welcome-file-list>
+			<welcome-file>index.jsp</welcome-file>
+	    </welcome-file-list>
+	<!-- End Welcome File List	-->
+	
+	<!-- <resource-ref>
+		<description>DB Connection</description>
+		<res-ref-name>jdbc/shopfloorDS</res-ref-name>
+		<res-type>javax.sql.DataSource</res-type>
+		<res-auth>Container</res-auth>
+	</resource-ref>
+	
+	<resource-ref>
+		<description>DB Connection</description>
+		<res-ref-name>jdbc/shopfloorFSDS</res-ref-name>
+		<res-type>javax.sql.DataSource</res-type>
+		<res-auth>Container</res-auth>
+	</resource-ref> -->
+	
+		<jsp-config>
+		<taglib>
+			<taglib-uri>/spring</taglib-uri>
+			<taglib-location>lib/spring.jar</taglib-location>
+		</taglib>
+	</jsp-config>
+</web-app>

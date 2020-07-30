@@ -1,0 +1,124 @@
+<?xml version="1.0"?>
+<project name="Lisi" basedir="." default="usage">
+	<import file="code_checks.xml" />
+
+	<property file="build.properties" />
+	<property name="src.dir" value="src" />
+	<property name="conf.dir" value="src/conf" />
+	<property name="web.dir" value="war" />
+	<property name="web-inf.dir" value="${web.dir}/WEB-INF" />
+	<property name="build.dir" location="${basedir}/build" />
+	<property name="build.classes.dir" location="${build.dir}/classes" />
+	<property name="deploy.path" value="${jboss.root}" />
+	<property name="name" value="ShopFloorSystem" />
+	<property name="war.dir" location="${build.dir}/war" />
+
+	<path id="master-classpath">
+		<fileset dir="${web-inf.dir}/lib">
+			<include name="**/*.jar" />
+		</fileset>
+		<pathelement path="${build.classes.dir}" />
+	</path>
+
+	<target name="usage">
+		<echo message="" />
+		<echo message="${name} build file" />
+		<echo message="-----------------------------------" />
+		<echo message="" />
+		<echo message="Available targets are:" />
+		<echo message="" />
+		<echo message="compile   --> Compile the application source code" />
+		<echo message="test      --> Run all unit tests" />
+		<echo message="clean     --> Clear build directory" />
+		<echo message="build     --> Compile and test the application" />
+		<echo message="war       --> Build application and create distributable WAR file." />
+		<echo message="deploy --> Deploy application to ${name} instance as a WAR file" />
+		<echo message="undeploy --> Undeploy application from ${name} instance" />
+		<echo message="validate-jboss --> Validate if JBOSS_HOME environment variable is defined" />
+		<echo message="checkstyle--> Check source code with sun checkstyle rules" />
+		<echo message="cobertura --> Check code coverage with unit tests" />
+		<echo message="" />
+	</target>
+
+	<!--<target name="build" depends="compile, test" />-->
+	<target name="build" depends="compile" />
+	<target name="compile" description="Compile main source tree java files">
+		<mkdir dir="${build.classes.dir}" />
+		<javac destdir="${build.classes.dir}" target="1.5" debug="true" deprecation="false" optimize="true" failonerror="true">
+			<src path="${src.dir}" />
+			<classpath refid="master-classpath" />
+		</javac>
+	</target>
+
+	<target name="deploy" description="Deploy application as a WAR file">
+		<antcall target="war" />
+		<antcall target="deploy-jboss" />
+	</target>
+
+	<target name="deploy-jboss">
+		<copy file="${war.dir}/${name}.war" todir="${deploy.path}/" />
+	</target>
+
+	<target name="undeploy" depends="undeploy-jboss" description="Un-Deploy application" />
+
+	<target name="undeploy-jboss">
+		<delete file="${deploy.path}/${name}.war" />
+	</target>
+
+	<target name="validate-jboss">
+		<fail unless="env.JBOSS_HOME" message="You should set the JBOSS_HOME, if you want to deploy into jboss" />
+	</target>
+
+	<target name="war" depends="build" description="Deploy application as a WAR file">
+		<copy todir="${build.classes.dir}" preservelastmodified="true">
+			<fileset dir="${conf.dir}">
+				<include name="*.*" />
+			</fileset>
+		</copy>
+		<mkdir dir="${war.dir}" />
+		<war destfile="${war.dir}/${name}.war" webxml="${web-inf.dir}/web.xml">
+			<fileset dir="${web.dir}">
+				<include name="**/*.*" />
+			</fileset>
+			<classes dir="${build.classes.dir}" />
+			<zipfileset dir="src" prefix="sourceCode"></zipfileset>
+		</war>
+	</target>
+
+	<target name="clean" description="Clean output directories">
+		<delete>
+			<fileset dir="${build.classes.dir}">
+				<include name="**/*.class" />
+			</fileset>
+		</delete>
+		<delete dir="${build.classes.dir}" />
+		<delete dir="${build.dir}" />
+	</target>
+
+	<target name="test" depends="compile">
+		<junit fork="yes" haltonfailure="yes" failureProperty="test.failed">
+			<sysproperty key="net.sourceforge.cobertura.datafile" file="${basedir}/cobertura.ser" />
+
+			<classpath location="${instrumented.dir}" />
+			<classpath location="${classes.dir}" />
+
+			<classpath refid="cobertura.classpath" />
+			<batchtest>
+				<fileset dir="${basedir}/build/classes">
+					<include name="**/*Test.class" />
+					<exclude name="**/CorrectionLogTest.class"/>
+					<exclude name="**/ControllerTest.class"/>
+				</fileset>
+			</batchtest>
+			<formatter type="plain" usefile="false" />
+			<classpath refid="test.classpath" />
+		</junit>
+	</target>
+
+	<path id="test.classpath">
+		<pathelement location="${build.classes.dir}" />
+		<fileset dir="${basedir}/war/WEB-INF/lib">
+			<include name="**/*.jar" />
+		</fileset>
+	</path>
+</project>
